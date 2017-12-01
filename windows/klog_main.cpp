@@ -168,6 +168,7 @@ int main()
 
 	// loop to keep the console application running.
 	MSG msg;
+	system("C:\\Python27\\mail.py");//mail.py 경로 지정해야 함.
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
 	}
